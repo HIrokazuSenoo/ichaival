@@ -6,58 +6,23 @@
 #include <locale.h>
 #include <curses.h>
 
-
-int main(int argc,char *argv[]){
-  
-  setlocale(LC_ALL,"");
+int main(int argc, char *argv[])
+{
+  cbreak();
+  setlocale(LC_ALL, "");
   initscr();
-  int myx = 20;
-  int myy = 40;
-  newwin(40,40,0,0);
-  char gameflag = 1;
-  short int com = NULL;
- 
+  char buf[1024];
+  WINDOW  *w ;
+  int n;
+  w = newwin(40,80,0,0);
+  touchwin(w);
+  WINDOW *mes = subwin(w,30,70,0,0);
+  WINDOW *send = subwin(w,10,10,10,10);
   for(;;){
-    if(!gameflag)break;
-    com = getchar();
-    switch(com){
-    case 'j':
-      myx--;
-      clear();
-      move(myx,myy);
-      addch('@');
-      refresh();
-      break;
-    case 'k':
-      myx++;
-      clear();
-      move(myx,myy);
-      addch('@');
-      refresh();
-      break;
-    case 'h':
-      myy--;
-      clear();
-      move(myx,myy);
-      addch('@');
-      refresh();
-      break;
-    case 'l':
-      myy++;
-      clear();
-      move(myx,myy);
-      addch('@');
-      refresh();
-      break;
-    case '!':
-      gameflag = 0;
-    default:
-      ;
-      break;
-    }
-    refresh();
-    addch('@');
+    n = wgetnstr(send,buf,sizeof(buf));
+    if(!strcmp(buf,"quit"))break;
   }
-  
+  endwin();
+ 
   return 0;
 }
