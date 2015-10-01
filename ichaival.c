@@ -5,24 +5,49 @@
 #include <string.h>
 #include <locale.h>
 #include <curses.h>
+#include <assert.h>
 
 int main(int argc, char *argv[])
 {
-  cbreak();
-  setlocale(LC_ALL, "");
+  int WX = 15;
+  int WY = 55;
+  int SUBX = 3;
+  int SUBY = 40;
+  int SUFX = 10;
+  int SUFY = 18;
+  int ZERO = 0;
+  char buf[5012];
+  WINDOW *wnd;
+  WINDOW *send;
   initscr();
-  char buf[1024];
-  WINDOW  *w ;
-  int n;
-  w = newwin(40,80,0,0);
-  touchwin(w);
-  WINDOW *mes = subwin(w,30,70,0,0);
-  WINDOW *send = subwin(w,10,10,10,10);
+  setlocale(LC_ALL, "");
+  clear();
   for(;;){
-    n = wgetnstr(send,buf,sizeof(buf));
-    if(!strcmp(buf,"quit"))break;
+    memset(buf,0,sizeof(char));
+    wnd = newwin(WX,WY,ZERO,ZERO);
+    send = newwin(SUBX,SUBY,SUFY,SUFX);
+    move(10,25);
+    box(wnd,'|','-');
+    box(send,'|','-');
+    wrefresh(wnd);
+    wrefresh(send);
+    move(10,42);
+    clear();
+    wgetnstr(wnd,buf,5000);
+    refresh();
+
+
+    wgetnstr(wnd,buf,1028);
+    wprintw(wnd,buf);
+    if(!strcmp(buf,"quit")){
+      break;
+    }
+    wprintw(wnd,"%s",buf);
+    refresh();
+    wrefresh(wnd);
+    wrefresh(send);
+    refresh();
   }
-  endwin();
- 
-  return 0;
+    endwin();
+    return 0;
 }
