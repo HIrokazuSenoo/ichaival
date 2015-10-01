@@ -1,2 +1,6 @@
+CC=gcc
+TARGET=ichaival.c
+FLAGS=-std=c99 -g -o ichaival -Wall
+
 ichaival: ichaival.c Makefile
-	gcc -std=c99 -g -o ichaival -Wall ichaival.c -lncursesw
+	$(CC) $(TARGET) $(FLAGS) -lncursesw
