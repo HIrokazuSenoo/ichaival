@@ -7,8 +7,7 @@
 #include <curses.h>
 #include <assert.h>
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]){
   int WX = 15;
   int WY = 55;
   int SUBX = 3;
